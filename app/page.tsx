@@ -2,7 +2,7 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import styles from "./page.module.css";
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AudioModal from "@/components/AudioModal";
 import AddItemModal from "@/components/AddItemModal";
 

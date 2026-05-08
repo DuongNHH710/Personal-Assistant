@@ -177,7 +177,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Missing audio file" }, { status: 400 });
     }
     // Convert file to base64
-    const arrayBuffer = await audioFile.arrayBuffer();
+    const arrayBuffer = await audioFile!.arrayBuffer();
     const audioBase64 = Buffer.from(arrayBuffer).toString("base64");
 
       // Normalize mime type - MediaRecorder often returns empty or with codecs suffix
