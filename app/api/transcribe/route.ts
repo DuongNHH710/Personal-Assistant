@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions";
-import { createGoogleEvent, createGoogleTask, createGoogleDocForNote } from "@/lib/google";
+import { createGoogleEvent, createGoogleTask, createGoogleDocForNote, getGoogleAuthClients } from "@/lib/google";
 import prisma from "@/lib/prisma";
 
 // Route segment config - increase body size limit for audio uploads
@@ -218,6 +218,14 @@ export async function POST(req: NextRequest) {
     if (syncToGoogle) {
       const userId = session.user.id as string;
 
+      // Pre-fetch auth clients to avoid repeated DB queries in loops
+      let authClients: any[] | undefined;
+      try {
+        authClients = await getGoogleAuthClients(userId);
+      } catch (e) {
+        console.error("Failed to fetch Google auth clients:", e);
+      }
+
       // Sync events
       for (const ev of extracted.events || []) {
         try {
@@ -226,7 +234,7 @@ export async function POST(req: NextRequest) {
             description: ev.description,
             start: { dateTime: ev.dateTime, timeZone: timezone },
             end: { dateTime: ev.endDateTime || ev.dateTime, timeZone: timezone }
-          }, accountId || undefined);
+          }, accountId || undefined, authClients);
           results.events.push(created);
         } catch (e: unknown) {
           const errorMessage = e instanceof Error ? e.message : String(e);
@@ -239,7 +247,7 @@ export async function POST(req: NextRequest) {
         try {
           const taskPayload: any = { title: task.title, notes: task.notes };
           if (task.dueDate) taskPayload.due = new Date(task.dueDate).toISOString();
-          const created = await createGoogleTask(userId, taskPayload, accountId || undefined);
+          const created = await createGoogleTask(userId, taskPayload, accountId || undefined, authClients);
           results.tasks.push(created);
         } catch (e: unknown) {
           const errorMessage = e instanceof Error ? e.message : String(e);
