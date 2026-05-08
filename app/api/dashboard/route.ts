@@ -23,8 +23,8 @@ export async function GET() {
         getIncompleteTasks(userId),
         listGoogleDocs(userId),
       ]);
-    } catch (apiError: any) {
-      console.error("Google API Error:", apiError.message);
+    } catch (apiError: unknown) {
+      console.error("Google API Error:", apiError instanceof Error ? apiError.message : String(apiError));
     }
 
     // Local notes saved by the app
@@ -61,8 +61,9 @@ export async function GET() {
     });
 
     return NextResponse.json({ events, tasks, notes: allNotes, linkedAccounts });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Dashboard API Error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

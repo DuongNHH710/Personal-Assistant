@@ -114,8 +114,8 @@ export default function AudioModal({ onClose, linkedAccounts, onSuccess }: Props
 
       setResult(data);
       setStage("review");
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred.");
       setStage("upload");
     }
   };

@@ -66,8 +66,9 @@ export async function getUpcomingEvents(userId: string) {
       if (response.data.items) {
         allEvents = [...allEvents, ...response.data.items];
       }
-    } catch (e: any) {
-      console.error(`Failed to fetch calendar for account ${oauth2Client.credentials.access_token?.slice(0, 5)}...:`, e.message);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      console.error(`Failed to fetch calendar for account ${oauth2Client.credentials.access_token?.slice(0, 5)}...:`, errorMessage);
     }
   }));
 
@@ -90,8 +91,9 @@ export async function getIncompleteTasks(userId: string) {
         const tagged = response.data.items.map((t) => ({ ...t, _accountId: accountId }));
         allTasks = [...allTasks, ...tagged];
       }
-    } catch (e: any) {
-      console.error(`Failed to fetch tasks for account ${accountId}:`, e.message);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      console.error(`Failed to fetch tasks for account ${accountId}:`, errorMessage);
     }
   }));
 
@@ -196,8 +198,9 @@ export async function listGoogleDocs(userId: string) {
         }));
         allDocs = [...allDocs, ...tagged];
       }
-    } catch (e: any) {
-      console.error(`Failed to list Google Docs for account ${accountId}:`, e.message);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      console.error(`Failed to list Google Docs for account ${accountId}:`, errorMessage);
     }
   }));
 
