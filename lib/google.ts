@@ -98,8 +98,8 @@ export async function getIncompleteTasks(userId: string) {
   return allTasks;
 }
 
-export async function createGoogleEvent(userId: string, eventDetails: any, accountId?: string) {
-  const clients = await getGoogleAuthClients(userId);
+export async function createGoogleEvent(userId: string, eventDetails: any, accountId?: string, authClients?: any[]) {
+  const clients = authClients || await getGoogleAuthClients(userId);
   // Default to the first account if not specified
   const client = accountId ? clients.find(c => c.accountId === accountId) : clients[0];
   if (!client) throw new Error("Account not found");
@@ -113,8 +113,8 @@ export async function createGoogleEvent(userId: string, eventDetails: any, accou
   return response.data;
 }
 
-export async function createGoogleTask(userId: string, taskDetails: any, accountId?: string) {
-  const clients = await getGoogleAuthClients(userId);
+export async function createGoogleTask(userId: string, taskDetails: any, accountId?: string, authClients?: any[]) {
+  const clients = authClients || await getGoogleAuthClients(userId);
   const client = accountId ? clients.find((c) => c.accountId === accountId) : clients[0];
   if (!client) throw new Error("Account not found");
 
@@ -126,8 +126,8 @@ export async function createGoogleTask(userId: string, taskDetails: any, account
   return response.data;
 }
 
-export async function completeGoogleTask(userId: string, taskId: string, accountId: string) {
-  const clients = await getGoogleAuthClients(userId);
+export async function completeGoogleTask(userId: string, taskId: string, accountId: string, authClients?: any[]) {
+  const clients = authClients || await getGoogleAuthClients(userId);
   const client = clients.find((c) => c.accountId === accountId);
   if (!client) throw new Error("Account not found");
 
@@ -140,8 +140,8 @@ export async function completeGoogleTask(userId: string, taskId: string, account
   return response.data;
 }
 
-export async function createGoogleDocForNote(userId: string, title: string, content: string, accountId?: string) {
-  const clients = await getGoogleAuthClients(userId);
+export async function createGoogleDocForNote(userId: string, title: string, content: string, accountId?: string, authClients?: any[]) {
+  const clients = authClients || await getGoogleAuthClients(userId);
   const client = accountId ? clients.find(c => c.accountId === accountId) : clients[0];
   if (!client) throw new Error("Account not found");
 
