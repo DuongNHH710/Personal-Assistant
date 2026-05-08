@@ -19,7 +19,7 @@ type TimelineItem = {
   done?: boolean;
 };
 
-const NAV_ITEMS: { view: View; label: string; icon: JSX.Element }[] = [
+const NAV_ITEMS: { view: View; label: string; icon: React.ReactNode }[] = [
   {
     view: "dashboard",
     label: "Dashboard",
