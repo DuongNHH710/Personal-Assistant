@@ -32,8 +32,9 @@ export async function POST(req: NextRequest) {
 
     const task = await createGoogleTask(session.user.id as string, taskDetails, accountId);
     return NextResponse.json({ success: true, task });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Create task error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

@@ -167,8 +167,9 @@ export async function POST(req: NextRequest) {
       try {
         extracted = JSON.parse(rawJson);
         transcription = "Transcribed and parsed externally via Gemini Web.";
-      } catch (e: any) {
-        return NextResponse.json({ error: `Invalid JSON format: ${e.message}` }, { status: 400 });
+      } catch (e: unknown) {
+        const errorMessage = e instanceof Error ? e.message : String(e);
+        return NextResponse.json({ error: `Invalid JSON format: ${errorMessage}` }, { status: 400 });
       }
     } else {
       // --- AUDIO API PATH ---
@@ -190,15 +191,17 @@ export async function POST(req: NextRequest) {
       // Step 1: Transcribe
       try {
         transcription = await transcribeAudio(audioBase64, mimeType, Buffer.from(arrayBuffer), audioFile!.name || "audio.webm");
-      } catch (transcribeError: any) {
-        return NextResponse.json({ error: `Transcription failed: ${transcribeError.message}` }, { status: 500 });
+      } catch (transcribeError: unknown) {
+        const errorMessage = transcribeError instanceof Error ? transcribeError.message : String(transcribeError);
+        return NextResponse.json({ error: `Transcription failed: ${errorMessage}` }, { status: 500 });
       }
 
       // Step 2: Extract entities with AI
       try {
         extracted = await extractEntities(transcription);
-      } catch (extractError: any) {
-        return NextResponse.json({ error: `AI extraction failed: ${extractError.message}` }, { status: 500 });
+      } catch (extractError: unknown) {
+        const errorMessage = extractError instanceof Error ? extractError.message : String(extractError);
+        return NextResponse.json({ error: `AI extraction failed: ${errorMessage}` }, { status: 500 });
       }
     }
 
@@ -225,8 +228,9 @@ export async function POST(req: NextRequest) {
             end: { dateTime: ev.endDateTime || ev.dateTime, timeZone: timezone }
           }, accountId || undefined);
           results.events.push(created);
-        } catch (e: any) {
-          results.syncErrors.push(`Event "${ev.title}": ${e.message}`);
+        } catch (e: unknown) {
+          const errorMessage = e instanceof Error ? e.message : String(e);
+          results.syncErrors.push(`Event "${ev.title}": ${errorMessage}`);
         }
       }
 
@@ -237,8 +241,9 @@ export async function POST(req: NextRequest) {
           if (task.dueDate) taskPayload.due = new Date(task.dueDate).toISOString();
           const created = await createGoogleTask(userId, taskPayload, accountId || undefined);
           results.tasks.push(created);
-        } catch (e: any) {
-          results.syncErrors.push(`Task "${task.title}": ${e.message}`);
+        } catch (e: unknown) {
+          const errorMessage = e instanceof Error ? e.message : String(e);
+          results.syncErrors.push(`Task "${task.title}": ${errorMessage}`);
         }
       }
 
@@ -253,8 +258,9 @@ export async function POST(req: NextRequest) {
           if (account) {
             try {
               googleDocId = await createGoogleDocForNote(userId, note.title, note.content, accountId || undefined);
-            } catch (docError: any) {
-              results.syncErrors.push(`Note "${note.title}" (Docs): ${docError.message}`);
+            } catch (docError: unknown) {
+              const errorMessage = docError instanceof Error ? docError.message : String(docError);
+              results.syncErrors.push(`Note "${note.title}" (Docs): ${errorMessage}`);
             }
           }
 
@@ -264,16 +270,18 @@ export async function POST(req: NextRequest) {
             });
             results.notes.push(savedNote);
           }
-        } catch (e: any) {
-          results.syncErrors.push(`Note "${note.title}": ${e.message}`);
+        } catch (e: unknown) {
+          const errorMessage = e instanceof Error ? e.message : String(e);
+          results.syncErrors.push(`Note "${note.title}": ${errorMessage}`);
         }
       }
     }
 
     return NextResponse.json(results);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Transcribe API Error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
 
