@@ -1,0 +1,1048 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingScreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+.spinnerSmall {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.loginWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% -20%, #1a1a2e, var(--background));
+}
+
+.loginCard {
+  background: rgba(23, 23, 23, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 3rem;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  max-width: 420px;
+  width: 90%;
+}
+
+.loginLogo {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+}
+
+.loginTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fff, #a3a3a3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.loginDesc {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.loginBtn {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.loginBtn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Dashboard UI */
+.dashboardLayout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 280px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.sidebarLogo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.navMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.navItem {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  font-size: 0.95rem;
+}
+
+.navItem:hover {
+  background: var(--surface-hover);
+  color: var(--foreground);
+}
+
+.navItem.active {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+
+.userProfile {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 1rem;
+  background: var(--surface-hover);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.userProfile:hover {
+  background: var(--border);
+}
+
+.linkedAccounts {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.userProfile:hover .linkedAccounts {
+  max-height: 150px;
+  opacity: 1;
+  margin-top: 10px;
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userInfo {
+  flex: 1;
+  overflow: hidden;
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userEmail {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.iconBtn {
+  color: var(--text-muted);
+  padding: 0.35rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.iconBtn:hover {
+  background: var(--border);
+  color: var(--foreground);
+}
+
+.linkedAccountsLabel {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.linkedAccountItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mainContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem 3rem;
+  background: var(--background);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.pageTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.pageSubtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+.actionArea {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.addBtn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.addBtn:hover {
+  background: var(--surface-hover);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.uploadBtn {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.uploadBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--foreground);
+}
+
+.refreshBtn {
+  color: var(--text-muted);
+  padding: 0.3rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+.refreshBtn:hover {
+  color: var(--primary);
+  background: rgba(59,130,246,0.1);
+}
+
+.dateGroupLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-top: 1rem;
+}
+.dateGroupLabel:first-child {
+  margin-top: 0;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--text-muted);
+}
+
+.noteCard {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  transition: border-color 0.2s;
+}
+.noteCard:hover {
+  border-color: var(--accent);
+}
+
+.noteTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.noteContent {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.docLink {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--primary);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.docLink:hover { opacity: 0.75; }
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+
+.timelineItem::before {
+  content: '';
+  position: absolute;
+  left: 100px;
+  top: 40px;
+  bottom: -1.5rem;
+  width: 2px;
+  background: var(--border);
+}
+.timelineItem:last-child::before {
+  display: none;
+}
+
+.timelineTime {
+  width: 80px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: right;
+  padding-top: 0.75rem;
+}
+
+.timelineIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  border: 4px solid var(--surface);
+}
+
+.timelineIcon.event {
+  color: var(--primary);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.timelineIcon.task {
+  color: var(--success);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.timelineContent {
+  flex: 1;
+  background: var(--surface-hover);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.timelineContent h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.timelineContent p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ── Nav badge ── */
+.badge {
+  margin-left: auto;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 20px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.countBadge {
+  background: var(--surface-hover);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+/* ── Loading row ── */
+.loadingRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-muted);
+  padding: 1rem 0;
+  font-size: 0.9rem;
+}
+
+/* ── Refresh button variant (header) ── */
+.refreshBtn2 {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.refreshBtn2:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: rgba(59,130,246,0.06);
+}
+
+/* ── Timeline task checkbox ── */
+.timelineCheckbox {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.1);
+  border: 2px solid var(--success);
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.timelineCheckbox:hover {
+  background: var(--success);
+  color: #fff;
+  transform: scale(1.1);
+}
+.timelineCheckbox:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.timelineItemDone {
+  opacity: 0.4;
+  transform: scale(0.98);
+  transition: all 0.3s ease;
+}
+
+/* ── Calendar view ── */
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.calendarDay {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 180px;
+  transition: border-color 0.2s;
+}
+.calendarDay:hover {
+  border-color: var(--primary);
+}
+
+.calendarToday {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.calendarDayHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem 0.5rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  gap: 0.2rem;
+}
+
+.calendarDayName {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.calendarDayNum {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--foreground);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.calendarTodayNum {
+  background: var(--primary);
+  color: #fff;
+}
+
+.calendarEvents {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.calendarEmpty {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 0.75rem 0;
+}
+
+.calendarChip {
+  border-radius: 6px;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  position: relative;
+  cursor: default;
+}
+
+.calendarChipEvent {
+  background: rgba(59, 130, 246, 0.12);
+  border-left: 3px solid var(--primary);
+  color: var(--foreground);
+}
+
+.calendarChipTask {
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 3px solid var(--success);
+  color: var(--foreground);
+}
+
+.calendarChipTime {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.calendarChipTitle {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chipCompleteBtn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--success);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s;
+  cursor: pointer;
+}
+.calendarChip:hover .chipCompleteBtn {
+  opacity: 1;
+}
+
+/* ── Tasks view ── */
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.taskRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: all 0.25s ease;
+}
+.taskRow:last-child {
+  border-bottom: none;
+}
+.taskRow:hover {
+  background: rgba(255,255,255,0.02);
+  border-radius: 8px;
+  padding-left: 0.5rem;
+}
+
+.taskRowDone {
+  opacity: 0.3;
+  text-decoration: line-through;
+}
+
+.taskCheckbox {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: transparent;
+  color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.taskCheckbox:hover {
+  border-color: var(--success);
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+.taskCheckbox:disabled {
+  cursor: not-allowed;
+}
+
+.taskRowContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.taskRowTitle {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.taskRowNotes {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskRowMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.taskDue {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  background: var(--surface-hover);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* ── Notes grid view ── */
+.notesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.noteCardFull {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: border-color 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.noteCardFull:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.noteContentFull {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex: 1;
+  white-space: pre-wrap;
+}
+
+.noteMeta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Note card header (title + badge row) ── */
+.noteCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.noteBadge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.noteBadgeDrive {
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--primary);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.noteBadgeLocal {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* ── Mobile: hamburger button (hidden on desktop) ── */
+.hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  padding: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.hamburger:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ── Mobile: sidebar close button (hidden on desktop) ── */
+.sidebarClose {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--surface-hover);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1rem;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+}
+.sidebarClose:hover {
+  color: var(--foreground);
+  background: var(--border);
+}
+
+/* ── Mobile: sidebar overlay backdrop ── */
+.sidebarOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 40;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── Responsive breakpoints ── */
+@media (max-width: 900px) {
+  .calendarGrid {
+    grid-template-columns: repeat(4, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  /* Show hamburger, hide static sidebar */
+  .hamburger {
+    display: flex;
+  }
+
+  .sidebarOverlay {
+    display: block;
+  }
+
+  /* Sidebar becomes a slide-in drawer */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .sidebarClose {
+    display: flex;
+  }
+
+  /* Main content full width */
+  .mainContent {
+    padding: 1.25rem 1rem;
+  }
+
+  /* Dashboard grid → single column */
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* Notes grid → single column */
+  .notesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Calendar → horizontal scroll */
+  .calendarGrid {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+  }
+
+  .calendarDay {
+    min-width: 130px;
+    flex-shrink: 0;
+  }
+
+  /* Header adjustments */
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .actionArea {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .pageTitle {
+    font-size: 1.4rem;
+  }
+
+  /* Compact action buttons */
+  .uploadBtn,
+  .addBtn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainContent {
+    padding: 1rem 0.75rem;
+  }
+
+  .pageTitle {
+    font-size: 1.2rem;
+  }
+
+  /* Stack action buttons on very small screens */
+  .actionArea {
+    flex-wrap: wrap;
+  }
+}
+
