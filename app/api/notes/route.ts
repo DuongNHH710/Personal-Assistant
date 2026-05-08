@@ -32,8 +32,9 @@ export async function POST(req: NextRequest) {
     let googleDocId: string | null = null;
     try {
       googleDocId = await createGoogleDocForNote(session.user.id as string, title, content, accountId);
-    } catch (docError: any) {
-      console.warn("Failed to sync to Google Docs:", docError.message);
+    } catch (docError: unknown) {
+      const errorMessage = docError instanceof Error ? docError.message : String(docError);
+      console.warn("Failed to sync to Google Docs:", errorMessage);
     }
 
     // Save to local database
@@ -47,8 +48,9 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, note });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Create note error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
