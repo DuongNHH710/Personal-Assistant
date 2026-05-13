@@ -6,7 +6,9 @@ import prisma from "@/lib/prisma";
 
 // Route segment config - increase body size limit for audio uploads
 export const dynamic = "force-dynamic";
-export const maxDuration = 120;
+export const maxDuration = 300;
+
+const MAX_FILE_SIZE = 512 * 1024 * 1024; // 512 MB
 
 // Upload large audio files to Gemini File API (avoids 20MB inline_data limit)
 async function uploadToGeminiFileAPI(
@@ -50,7 +52,6 @@ async function uploadToGeminiFileAPI(
 
 // Transcribe audio — uses inline_data for small files, File API for large ones
 async function transcribeAudio(
-  audioBase64: string,
   mimeType: string,
   audioBuffer: Buffer,
   fileName: string
@@ -63,6 +64,7 @@ async function transcribeAudio(
     const fileUri = await uploadToGeminiFileAPI(audioBuffer, mimeType, fileName);
     audioPart = { fileData: { mimeType, fileUri } };
   } else {
+    const audioBase64 = audioBuffer.toString("base64");
     audioPart = { inline_data: { mime_type: mimeType, data: audioBase64 } };
   }
 
@@ -158,6 +160,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No audio file or JSON data provided" }, { status: 400 });
     }
 
+    if (audioFile && audioFile.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ error: "File size too large (max 512MB)" }, { status: 413 });
+    }
+
     let transcription = "";
     let extracted: Awaited<ReturnType<typeof extractEntities>>;
 
@@ -173,9 +179,9 @@ export async function POST(req: NextRequest) {
     } else {
       // --- AUDIO API PATH ---
 
-    // Convert file to base64
-    const arrayBuffer = await audioFile.arrayBuffer();
-    const audioBase64 = Buffer.from(arrayBuffer).toString("base64");
+      // Convert file to Buffer
+      const arrayBuffer = await audioFile.arrayBuffer();
+      const audioBuffer = Buffer.from(arrayBuffer);
 
       // Normalize mime type - MediaRecorder often returns empty or with codecs suffix
       let mimeType = audioFile!.type || "audio/webm";
@@ -185,11 +191,11 @@ export async function POST(req: NextRequest) {
       const supportedMimes = ["audio/wav", "audio/mp3", "audio/mpeg", "audio/mp4", "audio/webm", "audio/ogg", "video/mp4", "video/webm"];
       if (!supportedMimes.includes(mimeType)) mimeType = "audio/webm";
 
-      console.log(`Processing audio: ${audioFile!.name}, size: ${arrayBuffer.byteLength} bytes, type: ${mimeType}`);
+      console.log(`Processing audio: ${audioFile!.name}, size: ${audioBuffer.byteLength} bytes, type: ${mimeType}`);
 
       // Step 1: Transcribe
       try {
-        transcription = await transcribeAudio(audioBase64, mimeType, Buffer.from(arrayBuffer), audioFile!.name || "audio.webm");
+        transcription = await transcribeAudio(mimeType, audioBuffer, audioFile!.name || "audio.webm");
       } catch (transcribeError: any) {
         return NextResponse.json({ error: `Transcription failed: ${transcribeError.message}` }, { status: 500 });
       }
